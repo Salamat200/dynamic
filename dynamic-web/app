@@ -1,0 +1,36 @@
+from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+# let us prepare for database access using SQLAlchemy
+# specify our database config url
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/bookexample'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # this is added to avoid the warning message
+
+
+# FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in
+# the future.  Set it to True or False to suppress this warning. associate our Flask app object with SQLAlchemy,
+# creating a new object named db. Our ORM models will inherit this db object
+
+
+@app.route("/")
+def home():
+    return render_template('home.html', title="Home")
+
+
+@app.route("/products-and-services/")
+def products_and_services():
+    return render_template('products-and-services.html', title="Products and Services")
+
+
+@app.route("/about-us/")
+def about_us():
+    return render_template('about-us.html', title="About Us")
+
+
+if __name__ == "__main__":
+    app.run(port=5001)  # here we are using a different port so as not to conflict with that allocated to our
+
+db = SQLAlchemy(app)
+
